@@ -34,7 +34,12 @@ def train_model(X_train, y_train):
 
     return model
 
+# def save_model(model, filepath):
+#     joblib.dump(model, filepath)
+import os
+
 def save_model(model, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)  # Ensure directory exists
     joblib.dump(model, filepath)
 
 def test_model(model, X_test, y_test):
@@ -43,9 +48,13 @@ def test_model(model, X_test, y_test):
 def main():
     # Load the data
     data = load_data('data/credit_card_records.csv')
+    print("Columns in dataset:", data.columns)
+    print("Unique values in 'Fraudulent':", data['Fraudulent'].unique())
+    print("Fraudulent value counts:\n", data['Fraudulent'].value_counts())
 
     # Preprocess the data
     data = preprocess_data(data)
+
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = split_data(data, 'Fraudulent')
